@@ -1,6 +1,6 @@
 "use strict"
 var express=require("express");
-var app=express()
+var app=express();
 
 var socket=require("socket.io");
 
@@ -15,7 +15,18 @@ app.use(express.static("public"));
 var io=socket(server);
 
 io.on("connection", function(socket){
-	console.log("connection");
+
+	socket.broadcast.emit("newUser");
+
+	socket.on("chat", function(data){
+		io.sockets.emit("chat", data);
+		//do something; send to all sockets
+	});
+
+	socket.on("keypress", function(data){
+		socket.broadcast.emit("keypress", data);
+	});
+	
 });
 
 
