@@ -5,7 +5,7 @@ var app=express();
 var socket=require("socket.io");
 
 
-var server=app.listen(8080,function(){
+var server=app.listen(3000,function(){
 	console.log("server started");
 });
 
