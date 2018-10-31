@@ -4,14 +4,17 @@
 		<title>
 		chatroom
 		</title>
+		<link href="/styles.css" rel="stylesheet" />
 		<script src="socket.io.slim.js"></script>
 	</head>
 	<body>
+		<br>
+		<br>
 		<form action="/chatroom.html" method="get">
-		<div>
+		<div id="mario-chat" style="width:500px;">
 			<input name="handle" id="handle" type="text" placeholder="Handle"/>
 			<input id="room" name="room" type="text" placeholder="Room"/>
-			<input type="submit" value="Submit">
+			<input style="background: #575ed8;"  type="submit" value="Submit">
 		</div>
 		</form>
 		<script type="text/javascript" src="/chat.js"></script>
