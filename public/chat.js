@@ -13,7 +13,7 @@ let url= new  URL(window.location.href);
 let handle=url.searchParams.get("handle");
 let room=url.searchParams.get("room");
 
-socket.emit("newUser", handle);
+socket.emit("newUser", {"handle":handle});
 
 
 btn.addEventListener("click", function(){
@@ -27,7 +27,7 @@ btn.addEventListener("click", function(){
 socket.on("newUser",(data)=>{
 	istyping.value="";
 	console.log(data)
-	output.innerHTML=output.innerHTML+"<br> "+data+" joined the room";
+	output.innerHTML=output.innerHTML+"<br> "+data.handle+" joined the room";
 	console.log("newUser event");
 });
 
@@ -43,14 +43,19 @@ socket.on("chat", function(data){
 // });
 
 message.addEventListener("keypress", function(){
-	socket.emit("keypress", handle );
+	socket.emit("keypress", {"handle":handle} );
 	console.log("eventlistener added");
 
 });
 
 socket.on("keypress", function feedback(data){
 	console.log(data);
-	istyping.innerHTML='<p><em>'+data+' is typing...</p></em>';
+	istyping.innerHTML='<p><em>'+data.handle+' is typing...</p></em>';
 	setTimeout(function(){istyping.innerHTML=""}, 1000);
 	//istyping.innerHTML="";
 });
+
+socket.on("user_left", (data)=>{
+	output.innerHTML=output.innerHTML+"<br>"+data.handle+" left. ";
+
+})

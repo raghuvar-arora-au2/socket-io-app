@@ -14,10 +14,14 @@ app.use(express.static("public"));
 
 var io=socket(server);
 
+let users={};
+
 io.on("connection", function(socket){
 
 	socket.on("newUser",(data)=>{
 		socket.broadcast.emit("newUser",data);
+		console.log(data);
+		users[socket.id]=data.handle;
 	});
 
 	socket.on("chat", function(data){
@@ -27,6 +31,11 @@ io.on("connection", function(socket){
 
 	socket.on("keypress", function(data){
 		socket.broadcast.emit("keypress", data);
+	});
+	socket.on("disconnect", ()=>{
+		console.log(users);
+		io.sockets.emit("user_left", {"handle":users[socket.id]});
+		//console.log(data.userid+" left");
 	});
 	
 });
