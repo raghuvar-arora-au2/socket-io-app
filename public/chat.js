@@ -13,6 +13,8 @@ let url= new  URL(window.location.href);
 let handle=url.searchParams.get("handle");
 let room=url.searchParams.get("room");
 
+socket.emit("newUser", handle);
+
 
 btn.addEventListener("click", function(){
 	socket.emit("chat",{
@@ -22,16 +24,23 @@ btn.addEventListener("click", function(){
 	})
 });
 
+socket.on("newUser",(data)=>{
+	istyping.value="";
+	console.log(data)
+	output.innerHTML=output.innerHTML+"<br> "+data+" joined the room";
+	console.log("newUser event");
+});
+
 socket.on("chat", function(data){
 	istyping.value="";
-	output.innerHTML=output.innerHTML+"<br>"+data.handle+":"+data.message;
+	output.innerHTML=output.innerHTML+"<br>"+data.handle+" : "+data.message;
 	//do something; display data
 });
 
-socket.on("newUser", function(data){
-	istyping.value="";
-	output.innerHTML=output.innerHTML+"<br>user joinded the room";
-});
+// socket.on("newUser", function(data){
+// 	istyping.value="";
+// 	output.innerHTML=output.innerHTML+"<br>user joinded the room";
+// });
 
 message.addEventListener("keypress", function(){
 	socket.emit("keypress", handle );

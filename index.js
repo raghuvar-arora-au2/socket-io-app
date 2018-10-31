@@ -16,7 +16,9 @@ var io=socket(server);
 
 io.on("connection", function(socket){
 
-	socket.broadcast.emit("newUser");
+	socket.on("newUser",(data)=>{
+		socket.broadcast.emit("newUser",data);
+	});
 
 	socket.on("chat", function(data){
 		io.sockets.emit("chat", data);
